@@ -34,6 +34,7 @@
 	  pkgs.raycast
 	  pkgs.eza
 	  pkgs.zoxide
+          pkgs.arc-browser
         ];
 
       fonts.packages = with pkgs; [
