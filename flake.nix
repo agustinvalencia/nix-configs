@@ -29,6 +29,7 @@
 	  pkgs.vscode
 	  pkgs.aerospace
 	  pkgs.jankyborders
+	  pkgs.stow
         ];
 
       homebrew = {
