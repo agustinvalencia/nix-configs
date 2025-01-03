@@ -30,6 +30,7 @@
 	  pkgs.aerospace
 	  pkgs.jankyborders
 	  pkgs.stow
+	  pkgs.oh-my-posh
         ];
 
       homebrew = {
