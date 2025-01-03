@@ -32,6 +32,8 @@
 	  pkgs.stow
 	  pkgs.oh-my-posh
 	  pkgs.raycast
+	  pkgs.eza
+	  pkgs.zoxide
         ];
 
       fonts.packages = with pkgs; [
