@@ -35,6 +35,8 @@
 	  pkgs.eza
 	  pkgs.zoxide
           pkgs.arc-browser
+          pkgs.telegram-desktop
+          pkgs.whatsapp-for-mac
         ];
 
       fonts.packages = with pkgs; [
@@ -48,8 +50,6 @@
           "mas"
         ];
         casks = [
-          "hammerspoon"
-          "firefox"
           "the-unarchiver"
         ];
         onActivation.cleanup = "zap";
