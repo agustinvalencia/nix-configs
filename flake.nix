@@ -23,25 +23,28 @@
           pkgs.neovim
           pkgs.obsidian
           pkgs.tmux
-	  pkgs.git
-	  pkgs.uv
-	  pkgs.bun
-	  pkgs.vscode
-	  pkgs.aerospace
-	  pkgs.jankyborders
-	  pkgs.stow
-	  pkgs.oh-my-posh
-	  pkgs.raycast
-	  pkgs.eza
-	  pkgs.zoxide
+          pkgs.git
+          pkgs.uv
+          pkgs.bun
+          pkgs.vscode
+          pkgs.aerospace
+          pkgs.jankyborders
+          pkgs.stow
+          pkgs.oh-my-posh
+          pkgs.raycast
+          pkgs.eza
+          pkgs.zoxide
           pkgs.arc-browser
           pkgs.telegram-desktop
           pkgs.whatsapp-for-mac
+          pkgs.texliveSmall
+          pkgs.texlivePackages.lm
+          pkgs.texlivePackages.bibtex
         ];
 
       fonts.packages = with pkgs; [
         fira-code
-	fira-code-symbols
+        fira-code-symbols
       ];
 
       homebrew = {
@@ -80,11 +83,10 @@
         dock.largesize = 64;
         dock.persistent-apps = [
           "${pkgs.kitty}/Applications/kitty.app"
-          "/Applications/Firefox.app"
-          "/System/Applications/Safari.app"
+          "/System/Applications/Firefox.app"
+          "/System/Applications/Spotify.app"
           "/System/Applications/Mail.app"
           "/System/Applications/Calendar.app"
-          "/System/Applications/Spotify.app"
           "${pkgs.obsidian}/Applications/Obsidian.app"
         ];
         finder.FXPreferredViewStyle = "clmv";
