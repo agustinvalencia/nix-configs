@@ -18,27 +18,38 @@
       # $ nix-env -qaP | grep wget
       environment.systemPackages =
         [
+
+          # terminal tools
           pkgs.kitty
+          #pkgs.ghostty # ghostty nix is broken
           pkgs.mkalias
           pkgs.neovim
-          pkgs.obsidian
           pkgs.tmux
           pkgs.git
           pkgs.uv
           pkgs.bun
-          pkgs.vscode
-          pkgs.aerospace
-          pkgs.jankyborders
           pkgs.stow
-          pkgs.oh-my-posh
-          pkgs.raycast
           pkgs.eza
           pkgs.zoxide
+          pkgs.oh-my-posh
+
+          # desktop apps
+          pkgs.vscode
+          pkgs.obsidian
+          pkgs.aerospace
+          pkgs.jankyborders
+          pkgs.raycast
+          pkgs.flameshot
+
+          # internet
           pkgs.arc-browser
           pkgs.telegram-desktop
           pkgs.whatsapp-for-mac
-          pkgs.texliveSmall
-          pkgs.texlivePackages.lm
+
+          # latex
+          pkgs.texliveFull
+          pkgs.texlivePackages.latex
+          pkgs.texlivePackages.latex-fonts
           pkgs.texlivePackages.bibtex
         ];
 
@@ -83,8 +94,8 @@
         dock.largesize = 64;
         dock.persistent-apps = [
           "${pkgs.kitty}/Applications/kitty.app"
-          "/System/Applications/Firefox.app"
-          "/System/Applications/Spotify.app"
+          "${pkgs.arc-browser}/Applications/arc.app"
+          #"${pkgs.ghostty}/Applications/ghostty.app"
           "/System/Applications/Mail.app"
           "/System/Applications/Calendar.app"
           "${pkgs.obsidian}/Applications/Obsidian.app"
