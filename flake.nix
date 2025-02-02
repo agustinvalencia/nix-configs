@@ -20,8 +20,6 @@
         [
 
           # terminal tools
-          pkgs.kitty
-          #pkgs.ghostty # ghostty nix is broken
           pkgs.mkalias
           pkgs.neovim
           pkgs.tmux
@@ -64,7 +62,12 @@
           "mas"
         ];
         casks = [
-          "the-unarchiver"
+
+          # terminal, nix pkg is broken
+          "ghostty"
+          # bar tool to hide unused widgets
+          # https://github.com/dwarvesf/Blurred
+          "hiddenbar" 
         ];
         onActivation.cleanup = "zap";
       };
@@ -93,9 +96,8 @@
         dock.autohide  = true;
         dock.largesize = 64;
         dock.persistent-apps = [
-          "${pkgs.kitty}/Applications/kitty.app"
           "${pkgs.arc-browser}/Applications/arc.app"
-          #"${pkgs.ghostty}/Applications/ghostty.app"
+            #"${pkgs.ghostty}/Applications/ghostty.app"
           "/System/Applications/Mail.app"
           "/System/Applications/Calendar.app"
           "${pkgs.obsidian}/Applications/Obsidian.app"
