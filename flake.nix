@@ -30,6 +30,7 @@
           pkgs.eza
           pkgs.zoxide
           pkgs.oh-my-posh
+          pkgs.fzf
 
           # desktop apps
           pkgs.vscode
