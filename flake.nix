@@ -31,6 +31,9 @@
           pkgs.zoxide
           pkgs.oh-my-posh
           pkgs.fzf
+          pkgs.yazi
+          pkgs.tree-sitter
+          pkgs.nodejs_23
 
           # desktop apps
           pkgs.vscode
