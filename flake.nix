@@ -34,6 +34,7 @@
           pkgs.yazi
           pkgs.tree-sitter
           pkgs.nodejs_23
+          pkgs.R
 
           # desktop apps
           pkgs.vscode
@@ -41,7 +42,9 @@
           pkgs.aerospace
           pkgs.jankyborders
           pkgs.raycast
-          pkgs.flameshot
+          pkgs.flameshot # snapshots
+          pkgs.zathura # pdf viewer for nvim
+          pkgs.maccy # clipboard mgr
 
           # internet
           pkgs.arc-browser
@@ -66,11 +69,7 @@
           "mas"
         ];
         casks = [
-
-          # terminal, nix pkg is broken
           "ghostty"
-          # bar tool to hide unused widgets
-          # https://github.com/dwarvesf/Blurred
           "hiddenbar" 
         ];
         onActivation.cleanup = "zap";
@@ -101,19 +100,20 @@
         dock.show-recents = false;
         dock.showhidden = true;
         dock.largesize = 64;
+        dock.expose-group-apps = true;
         dock.persistent-apps = [
           "/System/Applications/System Settings.app/"
           "/System/Applications/Launchpad.app/"
           "/System/Applications/Mail.app"
           "/System/Applications/Calendar.app"
-          "/Applications/Safari.app/"
           "/Applications/Ghostty.app/"
           "/Applications/Spotify.app/"
-          "${pkgs.obsidian}/Applications/Obsidian.app"
           "${pkgs.arc-browser}/Applications/arc.app"
+          "${pkgs.obsidian}/Applications/Obsidian.app"
         ];
         finder.FXPreferredViewStyle = "clmv";
         finder.AppleShowAllFiles = true;
+        finder.ShowPathbar = true;
         loginwindow.GuestEnabled  = false;
         NSGlobalDomain.AppleICUForce24HourTime = true;
         NSGlobalDomain.AppleShowAllFiles = true;
@@ -123,6 +123,9 @@
 
       # Auto upgrade nix package and the daemon service.
       services.nix-daemon.enable = true;
+      services.jankyborders.enable = true;
+      services.jankyborders.active_color = "0x00FF9999";
+      services.jankyborders.inactive_color = "0x00FFFFFF";
       # nix.package = pkgs.nix;
 
       # Necessary for using flakes on this system.
