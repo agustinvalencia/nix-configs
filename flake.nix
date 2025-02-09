@@ -98,17 +98,27 @@
 
       system.defaults = {
         dock.autohide  = true;
+        dock.show-recents = false;
+        dock.showhidden = true;
         dock.largesize = 64;
         dock.persistent-apps = [
-          "${pkgs.arc-browser}/Applications/arc.app"
-            #"${pkgs.ghostty}/Applications/ghostty.app"
+          "/System/Applications/System Settings.app/"
+          "/System/Applications/Launchpad.app/"
           "/System/Applications/Mail.app"
           "/System/Applications/Calendar.app"
+          "/Applications/Safari.app/"
+          "/Applications/Ghostty.app/"
+          "/Applications/Spotify.app/"
           "${pkgs.obsidian}/Applications/Obsidian.app"
+          "${pkgs.arc-browser}/Applications/arc.app"
         ];
         finder.FXPreferredViewStyle = "clmv";
+        finder.AppleShowAllFiles = true;
         loginwindow.GuestEnabled  = false;
         NSGlobalDomain.AppleICUForce24HourTime = true;
+        NSGlobalDomain.AppleShowAllFiles = true;
+        NSGlobalDomain.NSAutomaticSpellingCorrectionEnabled = false;
+
       };
 
       # Auto upgrade nix package and the daemon service.
