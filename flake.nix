@@ -25,7 +25,6 @@
           pkgs.tmux
           pkgs.git
           pkgs.uv
-          pkgs.bun
           pkgs.stow
           pkgs.eza
           pkgs.zoxide
@@ -33,7 +32,7 @@
           pkgs.fzf
           pkgs.yazi
           pkgs.tree-sitter
-          pkgs.nodejs_23
+          pkgs.nodejs_22
           pkgs.R
 
           # desktop apps
