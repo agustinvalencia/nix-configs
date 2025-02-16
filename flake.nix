@@ -24,7 +24,6 @@
           pkgs.neovim
           pkgs.tmux
           pkgs.git
-          pkgs.uv
           pkgs.stow
           pkgs.eza
           pkgs.zoxide
@@ -66,6 +65,7 @@
         enable = true;
         brews = [
           "mas"
+          "uv"
         ];
         casks = [
           "ghostty"
@@ -95,6 +95,7 @@
         '';
 
       system.defaults = {
+        loginwindow.GuestEnabled  = false;
         dock.autohide  = true;
         dock.show-recents = false;
         dock.showhidden = true;
@@ -110,21 +111,22 @@
           "${pkgs.arc-browser}/Applications/arc.app"
           "${pkgs.obsidian}/Applications/Obsidian.app"
         ];
+        # Columns view in finder
         finder.FXPreferredViewStyle = "clmv";
-        finder.AppleShowAllFiles = true;
         finder.ShowPathbar = true;
-        loginwindow.GuestEnabled  = false;
-        NSGlobalDomain.AppleICUForce24HourTime = true;
+        finder.AppleShowAllFiles = true;
         NSGlobalDomain.AppleShowAllFiles = true;
+
+        NSGlobalDomain.AppleICUForce24HourTime = true;
         NSGlobalDomain.NSAutomaticSpellingCorrectionEnabled = false;
+
+        # not show symbols when holding pressed a key
+        NSGlobalDomain.ApplePressAndHoldEnabled = false
 
       };
 
       # Auto upgrade nix package and the daemon service.
       services.nix-daemon.enable = true;
-      services.jankyborders.enable = true;
-      services.jankyborders.active_color = "0x00FF9999";
-      services.jankyborders.inactive_color = "0x00FFFFFF";
       # nix.package = pkgs.nix;
 
       # Necessary for using flakes on this system.
