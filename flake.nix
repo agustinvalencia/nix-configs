@@ -32,7 +32,6 @@
           pkgs.yazi
           pkgs.tree-sitter
           pkgs.nodejs_22
-          pkgs.R
 
           # desktop apps
           pkgs.vscode
@@ -40,8 +39,6 @@
           pkgs.aerospace
           pkgs.jankyborders
           pkgs.raycast
-          pkgs.flameshot # snapshots
-          pkgs.zathura # pdf viewer for nvim
           pkgs.maccy # clipboard mgr
 
           # internet
@@ -65,11 +62,11 @@
         enable = true;
         brews = [
           "mas"
-          "uv"
         ];
         casks = [
           "ghostty"
           "hiddenbar" 
+          "hovrly"
         ];
         onActivation.cleanup = "zap";
       };
@@ -121,7 +118,7 @@
         NSGlobalDomain.NSAutomaticSpellingCorrectionEnabled = false;
 
         # not show symbols when holding pressed a key
-        NSGlobalDomain.ApplePressAndHoldEnabled = false
+        NSGlobalDomain.ApplePressAndHoldEnabled = false;
 
       };
 
