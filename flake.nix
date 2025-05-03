@@ -25,21 +25,28 @@
           pkgs.tmux
           pkgs.git
           pkgs.stow
+          pkgs.bat
           pkgs.eza
           pkgs.zoxide
           pkgs.oh-my-posh
           pkgs.fzf
           pkgs.yazi
           pkgs.tree-sitter
+          pkgs.ripgrep
+          pkgs.jq
           pkgs.nodejs_22
+          pkgs.typst
 
           # desktop apps
+          pkgs.sketchybar
           pkgs.vscode
           pkgs.obsidian
           pkgs.aerospace
           pkgs.jankyborders
           pkgs.raycast
           pkgs.maccy # clipboard mgr
+          pkgs.texstudio
+          pkgs.zotero
 
           # internet
           pkgs.arc-browser
@@ -50,6 +57,7 @@
           pkgs.texliveFull
           pkgs.texlivePackages.latex
           pkgs.texlivePackages.latex-fonts
+          pkgs.texlivePackages.tex-gyre
           pkgs.texlivePackages.bibtex
         ];
 
@@ -67,6 +75,9 @@
           "ghostty"
           "hiddenbar" 
           "hovrly"
+          "stats"
+          "font-sf-pro"
+          "sf-symbols"
         ];
         onActivation.cleanup = "zap";
       };
@@ -105,6 +116,8 @@
           "/System/Applications/Calendar.app"
           "/Applications/Ghostty.app/"
           "/Applications/Spotify.app/"
+          "${pkgs.zotero}/Applications/Zotero.app"
+          "${pkgs.maccy}/Applications/maccy.app"
           "${pkgs.arc-browser}/Applications/arc.app"
           "${pkgs.obsidian}/Applications/Obsidian.app"
         ];
