@@ -19,6 +19,18 @@
       environment.systemPackages =
         [
 
+          # programming
+          pkgs.typst
+          pkgs.tinymist
+          pkgs.rustup
+
+          # latex
+          pkgs.texliveFull
+          pkgs.texlivePackages.latex
+          pkgs.texlivePackages.latex-fonts
+          pkgs.texlivePackages.tex-gyre
+          pkgs.texlivePackages.bibtex
+
           # terminal tools
           pkgs.mkalias
           pkgs.neovim
@@ -35,7 +47,7 @@
           pkgs.ripgrep
           pkgs.jq
           pkgs.nodejs_22
-          pkgs.typst
+	  pkgs.gitui
 
           # desktop apps
           pkgs.sketchybar
@@ -53,13 +65,7 @@
           pkgs.telegram-desktop
           pkgs.whatsapp-for-mac
 
-          # latex
-          pkgs.texliveFull
-          pkgs.texlivePackages.latex
-          pkgs.texlivePackages.latex-fonts
-          pkgs.texlivePackages.tex-gyre
-          pkgs.texlivePackages.bibtex
-        ];
+      ];
 
       fonts.packages = with pkgs; [
         fira-code
