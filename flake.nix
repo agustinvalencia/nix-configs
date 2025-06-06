@@ -13,6 +13,8 @@
     configuration = { pkgs, config, ... }: {
 
       nixpkgs.config.allowUnfree = true;
+      system.primaryUser = "agustinvalencia";
+        ids.gids.nixbld = 350;
 
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
@@ -25,11 +27,11 @@
           pkgs.rustup
 
           # latex
-          pkgs.texliveFull
-          pkgs.texlivePackages.latex
-          pkgs.texlivePackages.latex-fonts
-          pkgs.texlivePackages.tex-gyre
-          pkgs.texlivePackages.bibtex
+          # pkgs.texliveFull
+          # pkgs.texlivePackages.latex
+          # pkgs.texlivePackages.latex-fonts
+          # pkgs.texlivePackages.tex-gyre
+          # pkgs.texlivePackages.bibtex
 
           # terminal tools
           pkgs.mkalias
@@ -88,6 +90,7 @@
           "stats"
           "font-sf-pro"
           "sf-symbols"
+          "font-fira-code-nerd-font"
         ];
         onActivation.cleanup = "zap";
       };
@@ -146,7 +149,7 @@
       };
 
       # Auto upgrade nix package and the daemon service.
-      services.nix-daemon.enable = true;
+      # services.nix-daemon.enable = true;
       # nix.package = pkgs.nix;
 
       # Necessary for using flakes on this system.
