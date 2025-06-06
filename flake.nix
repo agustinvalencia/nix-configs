@@ -33,20 +33,20 @@
 
           # terminal tools
           pkgs.mkalias
-          pkgs.neovim
           pkgs.git
+          pkgs.wget
           pkgs.stow
           pkgs.bat
           pkgs.eza
           pkgs.zoxide
           pkgs.oh-my-posh
           pkgs.fzf
-          pkgs.yazi
           pkgs.tree-sitter
           pkgs.ripgrep
+          pkgs.fd
           pkgs.jq
+          pkgs.yq
           pkgs.nodejs_22
-	  pkgs.gitui
 
           # desktop apps
           pkgs.sketchybar
@@ -75,6 +75,11 @@
         enable = true;
         brews = [
           "mas"
+          "uv"
+          "yazi"
+          "neovim"
+          "lazygit"
+          "tmux"
         ];
         casks = [
           "ghostty"
