@@ -18,54 +18,41 @@
 
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
-      environment.systemPackages =
-        [
+      environment.systemPackages = [
 
-          # programming
-          pkgs.typst
-          pkgs.tinymist
-          pkgs.rustup
+        # programming
+        pkgs.typst
+        pkgs.tinymist
+        pkgs.rustup
 
-          # latex
-          # pkgs.texliveFull
-          # pkgs.texlivePackages.latex
-          # pkgs.texlivePackages.latex-fonts
-          # pkgs.texlivePackages.tex-gyre
-          # pkgs.texlivePackages.bibtex
+        # latex
+        # pkgs.texliveFull
+        # pkgs.texlivePackages.latex
+        # pkgs.texlivePackages.latex-fonts
+        # pkgs.texlivePackages.tex-gyre
+        # pkgs.texlivePackages.bibtex
 
-          # terminal tools
-          pkgs.mkalias
-          pkgs.git
-          pkgs.wget
-          pkgs.stow
-          pkgs.bat
-          pkgs.eza
-          pkgs.zoxide
-          pkgs.oh-my-posh
-          pkgs.fzf
-          pkgs.tree-sitter
-          pkgs.ripgrep
-          pkgs.fd
-          pkgs.jq
-          pkgs.yq
-          pkgs.nodejs_22
-
-          # desktop apps
-          pkgs.sketchybar
-          pkgs.vscode
-          pkgs.obsidian
-          pkgs.aerospace
-          pkgs.jankyborders
-          pkgs.raycast
-          pkgs.maccy # clipboard mgr
-          pkgs.texstudio
-          pkgs.zotero
-
-          # internet
-          pkgs.arc-browser
-          pkgs.telegram-desktop
-          pkgs.whatsapp-for-mac
-
+        # terminal tools
+        pkgs.mkalias
+        pkgs.kitty
+        pkgs.television
+        pkgs.git
+        pkgs.wget
+        pkgs.stow
+        pkgs.bun
+        pkgs.dust
+        pkgs.bat
+        pkgs.eza
+        pkgs.zoxide
+        pkgs.starship
+        pkgs.fzf
+        pkgs.tree-sitter
+        pkgs.ripgrep
+        pkgs.just
+        pkgs.fd
+        pkgs.jq
+        pkgs.yq
+        pkgs.gh
       ];
 
       fonts.packages = with pkgs; [
@@ -75,22 +62,34 @@
 
       homebrew = {
         enable = true;
+        taps = [
+          "agustinvalencia/tap"
+        ];
         brews = [
           "mas"
           "uv"
           "yazi"
-          "neovim"
           "lazygit"
-          "tmux"
+          "node"
+          "neovim"
+          "herdr"
+          "hunk"
+          "agustinvalencia/tap/cuaderno"
+          "agustinvalencia/tap/mdvault"
         ];
         casks = [
-          "ghostty"
-          "hiddenbar" 
+          "hiddenbar"
           "hovrly"
           "stats"
           "font-sf-pro"
           "sf-symbols"
           "font-fira-code-nerd-font"
+          "obsidian"
+          "zotero"
+          "skim" 
+          "raycast"
+          "maccy"
+          "whatsapp"
         ];
         onActivation.cleanup = "zap";
       };
@@ -99,7 +98,7 @@
         env = pkgs.buildEnv {
           name = "system-applications";
           paths = config.environment.systemPackages;
-          pathsToLink = "/Applications";
+          pathsToLink = ["/Applications"];
         };
       in
         pkgs.lib.mkForce ''
@@ -117,32 +116,34 @@
 
       system.defaults = {
         loginwindow.GuestEnabled  = false;
-        dock.autohide  = true;
-        dock.show-recents = false;
-        dock.showhidden = true;
-        dock.largesize = 64;
-        dock.expose-group-apps = true;
-        dock.persistent-apps = [
-          "/System/Applications/System Settings.app/"
-          "/System/Applications/Launchpad.app/"
-          "/System/Applications/Mail.app"
-          "/System/Applications/Calendar.app"
-          "/Applications/Ghostty.app/"
-          "/Applications/Spotify.app/"
-          "${pkgs.zotero}/Applications/Zotero.app"
-          "${pkgs.maccy}/Applications/maccy.app"
-          "${pkgs.arc-browser}/Applications/arc.app"
-          "${pkgs.obsidian}/Applications/Obsidian.app"
-        ];
+        dock = {
+            autohide  = true;
+            show-recents = false;
+            showhidden = true;
+            largesize = 64;
+            expose-group-apps = true;
+            persistent-apps = [
+              "/System/Applications/System Settings.app/"
+              "/System/Applications/Mail.app"
+              "/System/Applications/Calendar.app"
+              "${pkgs.kitty}/Applications/kitty.app"
+              "/Applications/Spotify.app/"
+              "/Applications/Zotero.app"
+              "/Applications/Obsidian.app"
+              "${pkgs.maccy}/Applications/maccy.app"
+              "/Applications/zed.app"
+            ];
+        };
         # Columns view in finder
-        finder.FXPreferredViewStyle = "clmv";
-        finder.ShowPathbar = true;
-        finder.AppleShowAllFiles = true;
+        finder = {
+            FXPreferredViewStyle = "clmv";
+            ShowPathbar = true;
+            AppleShowAllFiles = true;
+        };
+        WindowManager = { EnableStandardClickToShowDesktop = false; };
         NSGlobalDomain.AppleShowAllFiles = true;
-
         NSGlobalDomain.AppleICUForce24HourTime = true;
         NSGlobalDomain.NSAutomaticSpellingCorrectionEnabled = false;
-
         # not show symbols when holding pressed a key
         NSGlobalDomain.ApplePressAndHoldEnabled = false;
 
@@ -154,6 +155,11 @@
 
       # Necessary for using flakes on this system.
       nix.settings.experimental-features = "nix-command flakes";
+        nix.gc = {
+        automatic = true;
+        interval = { Weekday = 0; Hour = 3; Minute = 0; };
+        options = "--delete-older-than 30d";
+      };
 
       # Create /etc/zshrc that loads the nix-darwin environment.
       programs.zsh.enable = true;  # default shell on catalina
@@ -174,8 +180,7 @@
     darwinConfigurations."mini" = nix-darwin.lib.darwinSystem {
       modules = [
         configuration
-        nix-homebrew.darwinModules.nix-homebrew
-        {
+        nix-homebrew.darwinModules.nix-homebrew {
           nix-homebrew = {
             enable = true;
             # Apple Silicon Only
