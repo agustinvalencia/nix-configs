@@ -72,6 +72,7 @@
           "lazygit"
           "node"
           "neovim"
+          "superfile"
           "herdr"
           "hunk"
           "agustinvalencia/tap/cuaderno"
