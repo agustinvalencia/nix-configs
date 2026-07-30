@@ -25,6 +25,14 @@
         pkgs.tinymist
         pkgs.rustup
 
+        # diagrams
+        # Renders .d2 sources to SVG. Chosen over mermaid-cli and plantuml:
+        # mermaid-cli drives puppeteer and nixpkgs has no chromium on darwin,
+        # so mmdc cannot find a browser; plantuml drags in a ~530 MiB JRE.
+        # d2 is a static Go binary (~60 MiB) and needs no runtime. Keep to SVG
+        # output — d2's PNG export shells out to a headless browser.
+        pkgs.d2
+
         # latex
         # pkgs.texliveFull
         # pkgs.texlivePackages.latex
