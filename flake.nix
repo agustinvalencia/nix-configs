@@ -26,12 +26,25 @@
         pkgs.rustup
 
         # diagrams
-        # Renders .d2 sources to SVG. Chosen over mermaid-cli and plantuml:
-        # mermaid-cli drives puppeteer and nixpkgs has no chromium on darwin,
-        # so mmdc cannot find a browser; plantuml drags in a ~530 MiB JRE.
-        # d2 is a static Go binary (~60 MiB) and needs no runtime. Keep to SVG
-        # output — d2's PNG export shells out to a headless browser.
+        # Both render headless. mermaid-cli is deliberately absent: it drives
+        # puppeteer and nixpkgs has no chromium on darwin, so mmdc dies with
+        # "Could not find Chrome" despite the package evaluating and caching
+        # fine.
+        #
+        # plantuml (~530 MiB, JRE + graphviz, ~1.3s per render) — the one to
+        # reach for with sequence diagrams: it puts message labels ABOVE the
+        # line and leaves the arrow unbroken.
+        #
+        # d2 (~60 MiB static Go binary, ~17ms, and `d2 --watch` gives a live
+        # preview) — better everywhere else. Its sequence-diagram layout always
+        # centres the label ON the connection and hides the line behind it;
+        # label.near is silently ignored there, so there is no fixing it.
+        #
+        # Keep both to SVG. d2's PNG/PDF/PPTX/GIF export tries to install
+        # Playwright at runtime and its CDN now 404s — and it exits 0 while
+        # producing no file, so check for the output rather than the status.
         pkgs.d2
+        pkgs.plantuml
 
         # latex
         # pkgs.texliveFull
