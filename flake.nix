@@ -75,11 +75,17 @@
           "superfile"
           "herdr"
           "hunk"
-          "agustinvalencia/tap/cuaderno"
           "agustinvalencia/tap/mdvault"
+          "agustinvalencia/tap/cuaderno"
+          # "agustinvalencia/tap/cuaderno-app"
         ];
         casks = [
-          "hiddenbar"
+          # Container engine for the vault-anywhere MCP origin. MUST stay
+          # declared: onActivation.cleanup = "zap" (below) uninstalls AND
+          # wipes the data of any undeclared cask. It was manually installed
+          # and got zapped on the 2026-07-17 rebuild, taking the remote MCP
+          # origin down until this line was added.
+          "orbstack"
           "hovrly"
           "stats"
           "font-sf-pro"
@@ -88,12 +94,28 @@
           "obsidian"
           "zotero"
           "skim" 
-          "raycast"
           "maccy"
           "whatsapp"
         ];
         onActivation.cleanup = "zap";
       };
+
+      # This mini runs as an always-on MCP HTTP server, so it must not sleep.
+      # Typed power options cover restart-after-failure; the sleep timers have
+      # no typed nix-darwin equivalent and go through pmset in a postActivation
+      # script (runs as root on every darwin-rebuild).
+      power.restartAfterPowerFailure = true;
+      power.restartAfterFreeze = true;
+
+      system.activationScripts.postActivation.text = ''
+        echo "configuring power management for always-on server..." >&2
+        # Never sleep the machine or its disks; the display may still sleep
+        # (screen off does not halt the server process).
+        /usr/bin/pmset -a sleep 0
+        /usr/bin/pmset -a disksleep 0
+        /usr/bin/pmset -a powernap 0
+        /usr/bin/pmset -a displaysleep 10
+      '';
 
      system.activationScripts.applications.text = let
         env = pkgs.buildEnv {
@@ -147,6 +169,13 @@
         NSGlobalDomain.NSAutomaticSpellingCorrectionEnabled = false;
         # not show symbols when holding pressed a key
         NSGlobalDomain.ApplePressAndHoldEnabled = false;
+
+        # Cmd+Tab (and Dock clicks) follow the app to the Space/Desktop that
+        # holds its windows, instead of just selecting it in place. Mirrors the
+        # Mission Control checkbox "When switching to an application, switch to a
+        # Space with open windows for the application". Not a typed NSGlobalDomain
+        # option in nix-darwin, so written via CustomUserPreferences.
+        CustomUserPreferences.NSGlobalDomain.AppleSpacesSwitchOnActivate = true;
 
       };
 
