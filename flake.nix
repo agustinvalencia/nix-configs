@@ -74,6 +74,7 @@
         pkgs.jq
         pkgs.yq
         pkgs.gh
+        pkgs.pv
       ];
 
       fonts.packages = with pkgs; [
@@ -98,7 +99,6 @@
           "hunk"
           "agustinvalencia/tap/mdvault"
           "agustinvalencia/tap/cuaderno"
-          # "agustinvalencia/tap/cuaderno-app"
         ];
         casks = [
           # Container engine for the vault-anywhere MCP origin. MUST stay
@@ -117,6 +117,8 @@
           "skim" 
           "maccy"
           "whatsapp"
+          "fork"
+          "agustinvalencia/tap/cuaderno-app"
         ];
         onActivation.cleanup = "zap";
       };
@@ -186,6 +188,12 @@
         };
         WindowManager = { EnableStandardClickToShowDesktop = false; };
         NSGlobalDomain.AppleShowAllFiles = true;
+        # Distinct from AppleShowAllFiles above (that one is hidden files). This
+        # is Finder > Advanced > "Show all filename extensions"; leaving it on
+        # makes Spotlight list apps as "Photos.app" instead of "Photos". Was
+        # undeclared and had drifted to true on the mini — pinned false so it
+        # matches the MacBook and stays that way across rebuilds.
+        NSGlobalDomain.AppleShowAllExtensions = false;
         NSGlobalDomain.AppleICUForce24HourTime = true;
         NSGlobalDomain.NSAutomaticSpellingCorrectionEnabled = false;
         # not show symbols when holding pressed a key
