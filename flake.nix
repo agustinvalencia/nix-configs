@@ -75,6 +75,12 @@
         pkgs.yq
         pkgs.gh
         pkgs.pv
+
+        # backup
+        # Off-site copy of the cuaderno vault (see the restic-vault-backup
+        # launchd agent below). Declared here rather than installed by hand so
+        # a rebuild cannot leave the backup agent pointing at a missing binary.
+        pkgs.restic
       ];
 
       fonts.packages = with pkgs; [
@@ -127,6 +133,37 @@
       # Typed power options cover restart-after-failure; the sleep timers have
       # no typed nix-darwin equivalent and go through pmset in a postActivation
       # script (runs as root on every darwin-rebuild).
+      # Off-site vault backup. The vault reaches both Macs within seconds, so
+      # they are one failure domain for anything that propagates; the git remote
+      # is the only independent copy, and it does not carry `.cuaderno/`
+      # (config.toml + templates/ are gitignored as machine-local, yet they are
+      # what interprets every note). This agent closes that gap.
+      #
+      # Credentials are NOT here — this repository is public. The script reads
+      # them from ~/.config/restic/vault-r2.env (mode 600) and refuses to run if
+      # that file is missing or too permissive.
+      launchd.user.agents.restic-vault-backup = {
+        serviceConfig = {
+          ProgramArguments = [
+            "${pkgs.bash}/bin/bash"
+            (toString (pkgs.writeShellScript "restic-vault-backup"
+              (builtins.readFile ./scripts/restic-vault-backup.sh)))
+          ];
+          # launchd agents inherit no PATH from a login shell, so the script
+          # would not find restic without this. A terminal test cannot catch it,
+          # because there the shell's PATH is already correct.
+          EnvironmentVariables = {
+            PATH = "${pkgs.restic}/bin:${pkgs.coreutils}/bin:/usr/bin:/bin";
+            HOME = "/Users/agustinvalencia";
+          };
+          # 03:30 daily: the machine never sleeps (see the pmset script), and
+          # this is the quietest point for a consistent snapshot.
+          StartCalendarInterval = [{ Hour = 3; Minute = 30; }];
+          StandardOutPath = "/Users/agustinvalencia/Library/Logs/restic-vault-backup.log";
+          StandardErrorPath = "/Users/agustinvalencia/Library/Logs/restic-vault-backup.log";
+        };
+      };
+
       power.restartAfterPowerFailure = true;
       power.restartAfterFreeze = true;
 
