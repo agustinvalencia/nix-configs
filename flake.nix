@@ -67,6 +67,29 @@
         pkgs.zoxide
         pkgs.starship
         pkgs.fzf
+
+        # Tiling window manager, configured from .config/aerospace/ in the
+        # dotfiles repo. From nixpkgs, not the author's Homebrew tap: as of
+        # 2026-09-12 every cask in nikitabobko/tap fails to even parse under
+        # Homebrew 6.0.1 ("undefined local variable or method 'version'"),
+        # because its postflight_steps block interpolates #{version}, which
+        # that DSL no longer exposes. Pinning an older cask does not help —
+        # they are all produced by the same generator.
+        #
+        # Held at 0.21.3-Beta to match the MacBook, rather than nixpkgs'
+        # 0.20.3. The two share one aerospace.toml, and 0.20.3 rejects the
+        # whole file over `auto-reload-config: Unknown top-level key` — a
+        # config written against the newer release cannot be loaded by the
+        # older one, so the versions have to agree. Upstream ships a plain
+        # zip per release and the derivation is a fetchzip, so this is only
+        # a version + hash. Drop the override once nixpkgs catches up.
+        (pkgs.aerospace.overrideAttrs (old: rec {
+          version = "0.21.3-Beta";
+          src = pkgs.fetchzip {
+            url = "https://github.com/nikitabobko/AeroSpace/releases/download/v${version}/AeroSpace-v${version}.zip";
+            hash = "sha256-JHXtF3IKUbge7z2cMBi4L9IruiByNPCIKugLe4ymvys=";
+          };
+        }))
         pkgs.tree-sitter
         pkgs.ripgrep
         pkgs.just
@@ -124,6 +147,13 @@
           "maccy"
           "whatsapp"
           "fork"
+          # Companion to the aerospace package below: every AeroSpace command
+          # acts on the *focused* window, so the setup drives them from a
+          # Hammerspoon command palette that captures the window id before it
+          # steals focus. Without this the ctrl+alt+space palette is simply
+          # not there and only alt-h/j/k/l work. Homebrew rather than nixpkgs
+          # because Hammerspoon is not packaged there.
+          "hammerspoon"
           "agustinvalencia/tap/cuaderno-app"
         ];
         onActivation.cleanup = "zap";
